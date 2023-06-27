@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class CardViewHeroAdapter extends RecyclerView.Adapter<CardViewHeroAdapter.CardViewViewHolder> {
     private ArrayList<Hero> listHero;
+    private OnItemClickCallback onItemClickCallback;
 
     public CardViewHeroAdapter(ArrayList<Hero> listHero) {
         this.listHero = listHero;
@@ -65,12 +66,20 @@ public class CardViewHeroAdapter extends RecyclerView.Adapter<CardViewHeroAdapte
                         listHero.get(holder.getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(holder.itemView.getContext(), "Kamu memilih " + listHero.get(holder.getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return listHero.size();
     }
+
 
     class CardViewViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPhoto;
@@ -86,5 +95,13 @@ public class CardViewHeroAdapter extends RecyclerView.Adapter<CardViewHeroAdapte
             btnFavorite = itemView.findViewById(R.id.btn_set_favorite);
             btnShare = itemView.findViewById(R.id.btn_set_share);
         }
+    }
+
+    public void setOnItemClickCallback(CardViewHeroAdapter.OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
+
+    public interface OnItemClickCallback {
+        void onItemClicked(Hero data);
     }
 }
